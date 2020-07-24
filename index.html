@@ -95,7 +95,7 @@
     var map = new mapboxgl.Map({
       container: 'map', // container id
       style: 'mapbox://styles/mapbox/streets-v11', //stylesheet location
-      center: [-47.06083, -22.90556], // starting position
+      center: [-47.06083, -02.90556], // starting position
       zoom: 3,// starting zoom
       transformRequest: transformRequest
     });
@@ -104,7 +104,7 @@
       $.ajax({
         type: "GET",
         //YOUR TURN: Replace with csv export link
-        url: 'https://docs.google.com/spreadsheets/d/1c412Y8TVstVcVsjMka6ymb3sB0IuCXhZtkN0hb6kAZY/gviz/tq?tqx=out:csv&sheet=Sheet1',
+        url: 'https://docs.google.com/spreadsheets/d/1-VbKgM4Jvkd0cVk3mxUQsezB4srNjK1Y04hRrU_6MaE/gviz/tq?tqx=out:csv&sheet=Sheet1',
         dataType: "text",
         success: function (csvData) { makeGeoJSON(csvData); }
       });
@@ -137,14 +137,13 @@
             // When a click event occurs on a feature in the csvData layer, open a popup at the
             // location of the feature, with description HTML from its properties.
             map.on('click', 'csvData', function (e) {
-              
-              console.log(e.features[0]);
+			        console.log(e.features[0]);
               var coordinates = e.features[0].geometry.coordinates.slice();
 
               //set popup text 
               //You can adjust the values of the popup to match the headers of your CSV. 
               // For example: e.features[0].properties.Name is retrieving information from the field Name in the original CSV. 
-              var description = `<h3>` + e.features[0].properties.Name + `</h3>` + `<h4>` + `<b>` + `Address: ` + `</b>` + e.features[0].properties.Address + `</h4>` + `<h4>` + `<b>` + `Phone: ` + `</b>` + e.features[0].properties.Phone + `</h4>`;
+              var description = `<h3>` + e.features[0].properties.Name + `</h3>` + `<h4>` + e.features[0].properties.City + `, ` + e.features[0].properties.Country + `</h4>` + `<h4>` + `<b>` + `Project manager: ` + `</b>` + e.features[0].properties.ProjectManager + `</h4>`+ `<h4>` + `<b>` + `News: ` + `</b>` + e.features[0].properties.News + `</h4>`;
 
               // Ensure that if the map is zoomed out such that multiple
               // copies of the feature are visible, the popup appears
